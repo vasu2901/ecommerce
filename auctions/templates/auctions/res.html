@@ -1,0 +1,21 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+{% if user.is_authenticated %}
+    {% if user.username == message %}
+    <h1>Congrats {{message}}, you won the bidding</h1>
+    <div style="border: 1px solid; height: 300px;">
+        <img src="{{product.image}}" alt="product_image" style="max-width: 250px; max-height: 250px; z-index: -2; position: absolute;">
+        <div style="margin-left: 25%; z-index: 2; margin-top: 2%; position: relative;">
+            <h1>{{product.title}}</h1>
+            <h3>{{product.desc}}</h3>
+            <h3>Price is {{product.price}}</h3>
+        </div>
+    </div>
+    {% else %}
+    <h1>Sorry This Listing is not available</h1>
+    {% endif %}
+{% else %}
+    <h3><a href="login">Please Login</a></h3>
+{% endif %}
+{% endblock %}

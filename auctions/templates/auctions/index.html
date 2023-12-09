@@ -1,0 +1,33 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    {% for product in products %}
+        {% if product.active %}
+        <div style="border: 1px solid; height: 300px;">
+            <img src="{{product.image}}" alt="product_image" style="max-width: 250px; max-height: 250px; z-index: -2;position:absolute;">
+            <div style="margin-left: 25%; z-index: 2;position: relative; margin-top: 2%;">
+                <a href="{% url 'desc' product.id %}"><h1>{{product.title}}</h1></a>
+                <h3>{{product}}</h3>       
+                <h3>{{product.desc}}</h3>
+                <h3>Price is {{product.price}}</h3>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    <h2>Closed Listings</h2>
+    {% for product in products %}
+        {% if not product.active %}
+        <div style="border: 1px solid; height: 300px;">
+            <img src="{{product.image}}" alt="product_image" style="max-width: 250px; max-height: 250px; z-index: -2;">
+            <div style="margin-left: 25%; z-index: 2; margin-top: -10%;">
+                <a href="{% url 'desc' product.id %}"><h1>{{product.title}}</h1></a>
+                <h3>{{product}}</h3>
+                <h3>Price is {{product.price}}</h3>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

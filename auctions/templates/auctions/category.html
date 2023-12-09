@@ -1,0 +1,13 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% if user.is_authenticated %}
+<ul>
+    {% for i in list %}
+    <li><a href="{% url 'categorydesc' i%}">{{i}}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+    <h3><a href="login">Please Login</a></h3>
+{% endif %}
+{% endblock %}

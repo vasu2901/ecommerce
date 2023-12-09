@@ -1,0 +1,28 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+{% if user.is_authenticated %}
+{% for wish in carts %}
+{% if wish.user.username == user.username %}
+<div style="border: 1px solid; height: 300px;">
+    <img src="{{wish.product.image}}" alt="product_image" style="max-width: 250px; max-height: 250px; z-index: -2;position: absolute;">
+    <div style="margin-left: 25%; z-index: 2; position: relative; margin-top: 2%;">
+        <h1><a href="{% url 'desc' wish.product.id %}">{{wish.product.title}}</a></h1>
+        <h3>{{wish.product.desc}}</h3>
+        <h3>Price is {{wish.product.price}}</h3>
+        <hr>
+        <form method="post" action="{% url 'remove' %}">
+            {% csrf_token %}
+            <input type="hidden" value="{{wish.id}}" name="id">
+            <input type="submit" value="Remove from watchlist">
+        </form>
+    </div>
+</div>
+<br>
+
+{% endif %}
+{% endfor %}
+{% else %}
+<h3><a href="login">Please Login</a></h3>
+{% endif %}
+{% endblock %}

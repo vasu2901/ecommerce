@@ -1,0 +1,66 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% if user.is_authenticated %}
+<div style="border: 1px solid; height: 300px;">
+    <img src="{{product.image}}" alt="product_image" style="max-width: 250px; max-height: 250px; z-index: -2;position: absolute;">
+    <div style="margin-left: 25%; z-index: 2; margin-top: 2%;position: relative;">
+        <h1>{{product.title}}</h1>
+        <h3>{{product.desc}}</h3>
+        <h3>Created by {{product.listed_by.username}}</h3>
+        <h3>Price is {{product.price}}</h3>
+    </div>
+</div>
+<br>
+{% if user.username == product.listed_by.username%}
+<ul>
+    {% for bid in bids %}
+    <h3>{{bid}}</h3>
+    {% endfor %}
+</ul>
+<br>
+<form method="post" action="{% url 'deactivate' %}">
+    {% csrf_token %}
+    <input type="hidden" value="{{product.id}}" name="id">
+    <input type="submit" value="Close the Auction">
+</form>
+{% else %}
+<form action="{% url 'cart' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" value="{{user.username}}" name="user">
+    <input type="hidden" value="{{product.id}}" name="id">
+    <input type="submit" value="Add to Watchlist">
+</form>
+<br>
+<form style="text-align: justify;" method="post" action="{% url 'desc' product.id %}">
+    {% csrf_token %}
+    <label for="name">Username</label>
+    <input type="text" value="{{ user.username }}" name="name">
+    <br>
+    <label for="product">Product</label>
+    <input type="text" value="{{product.title}}" name="product">
+    <br>
+    <label for="bid">Enter your bid</label>
+    <input type="number" name="bid">
+    <br>
+    <input type="submit">
+</form>
+<br>
+<form method="post" action="{% url 'addcomment' %}">
+    {% csrf_token %}
+    <input type="hidden" value="{{user.username}}" name="name">
+    <input type="hidden" value="{{product.id}}" name="id">
+    <label for="comment">Add your Comment</label>
+    <input type="text" name="comment">
+    <input type="submit">
+</form>
+{% endif %}
+<h3>Comments </h3>
+{% for comment in comments %}
+<h3>{{comment.user.username}} 👉 {{comment.comment}}</h3>
+{% endfor %}
+{% else %}
+    <h3><a href="login">Please Login</a></h3>
+{% endif %}
+{% endblock %}
+

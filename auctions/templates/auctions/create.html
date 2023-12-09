@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% if user.is_authenticated %}
+<form action="{% url 'createlisting' %}" method="post">
+    {% csrf_token %}
+    <label for="name">Username</label>
+    <input type="text" value="{{ user.username }}" name="name">
+    <br>
+    <label for="product">Product Name</label>
+    <input type="text" name="title">
+    <br>
+    <label for="product">Product Image Url</label>
+    <input type="text" name="image">
+    <br>
+    <label for="product">Product Description</label>
+    <input type="text" name="desc">
+    <br>
+    <label for="product">Product Category</label>
+    <input type="text" name="category">
+    <br>
+    <label for="bid">Enter your price</label>
+    <input type="number" name="price">
+    <br>
+    <input type="submit">
+</form>
+{% else %}
+    <h3><a href="login">Please Login</a></h3>
+{% endif %}
+{% endblock %}
